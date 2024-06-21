@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/20 19:55:29 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/21 16:38:55 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	insert_values(char **av, int ac)
 {
 	t_i	*i;
 
-	i = malloc(sizeof(t_i));
 	if (ac != 5 || ac != 6)
-		return (ft_printf("Provide :\n\
+		return (put_str("Provide :\n\
 	(1) number_of_philosophers\
 	(2) time_to_die\
 	(3) time_to_eat\
@@ -26,13 +25,17 @@ int	insert_values(char **av, int ac)
 	(optional) number_of_times_each_philosopher_must_eat\n"\
 	, 1));
 	if (!ft_atoi(av[1]) || !ft_atoi(av[5]))
-		return (ft_printf("Values cannot be zero"), 1);
+		return (put_str("Values cannot be zero"), 0);
+	i = malloc(sizeof(t_i));
+	if (!i)
+		return (put_str("Malloc failed"), 0);
 	i->philos = ft_atoi(av[1]);
-	i->time2die = ft_atoi(av[2]);
+	i->die2time = ft_atoi(av[2]);
 	i->hungyy = ft_atoi(av[3]);
 	i->zzzz = ft_atoi(av[4]);
 	if (ac == 6)
-		i->bulkin = ft_atoi(av[5]);
+		i->pasta_overload = ft_atoi(av[5]);
+	return (1);
 }
 
 int	main(int ac, char **av)
