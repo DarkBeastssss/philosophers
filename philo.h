@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/25 18:30:09 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:30:47 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ typedef struct s_info
 
 typedef struct s_phedo
 {
-	int meals_eaten;
+	// int lounge_id; // is the order 1 3 5 (wait till 1 finished eating) 2 4
+	// int caution_id; // would be the second number
+	int id;
 	pthread_mutex_t	*l_frok;
-	pthread_mutex_t	*r_frok;
+	pthread_mutex_t	r_frok;
 
 }	t_phedo;
 
@@ -46,7 +48,6 @@ typedef struct s_phedo
 
 # define DEATH		1
 # define CHILLIN	0
-
 
 //////////////////////////	NODE_UTILS	//////////////////////////
 

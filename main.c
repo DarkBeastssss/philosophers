@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/25 18:42:54 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:27:40 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,31 @@ static int	inserting_args(char **av, int ac, t_i *info)
 	return (1);
 }
 
-void init_phedo(t_phedo *phedo)
+void init_phedo(int i, t_phedo *phedo)
 {
-	phedo->meals_eaten = 0;
+	phedo->id = i;
 	pthread_mutex_init(phedo->l_frok, NULL);
-	
 }
 
-static int init_stuff(t_i *info)
+static int init_stuff(t_i **info)
 {
 	t_phedo	*phedo;
+
 	int		i = 0;
 
 	phedo = malloc (sizeof(t_phedo) * info->philos);
-	if (pthread_mutex_init(info->lock_1, NULL) ||
-		pthread_mutex_init(info->lock_2, NULL) ||
-		!phedo)
+	if (pthread_mutex_init(info->lock_1, NULL) || !phedo)
 		return (0);
+	
 	while (i < info->philos)
-		init_phedo(&info->phedo[i++]);
+	{
+		if (i + 1 == info->philos)
+			*info->phedo[i].r_frok = info->phedo[0]->l_frok;
+		else
+			*info->phedo[i]->r_frok = info->philos[i + 1]
+			// info->phedo[i]->r_frok = &info->phedo[i + 1]->l_frok;
+		init_phedo(i, &info->phedo[i++]);
+	}
 	return (1);
 }
 
@@ -67,8 +73,5 @@ int	main(int ac, char **av)
 		return (1);
 	if (!init_stuff(info))
 		return (1);
+	start();
 }
-
-
-// could create  a function for simplicity, to lock both forcks and another to unlock (reason : reability)
-// also print out the necesary stuff // could call it, take_forks_stop_others
