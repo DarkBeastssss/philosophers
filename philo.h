@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/25 21:30:47 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/26 13:50:53 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ typedef struct s_info
 	t_phedo		*phedo;
 }	t_i;
 
-typedef struct s_phedo
-{
 	// int lounge_id; // is the order 1 3 5 (wait till 1 finished eating) 2 4
 	// int caution_id; // would be the second number
+typedef struct s_phedo
+{
 	int id;
-	pthread_mutex_t	*l_frok;
-	pthread_mutex_t	r_frok;
+	pthread_mutex_t	l_frok;
+	pthread_mutex_t	*r_frok;
 
 }	t_phedo;
 
