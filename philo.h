@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/26 13:50:53 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/26 19:33:35 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ typedef struct s_info
 	// int caution_id; // would be the second number
 typedef struct s_phedo
 {
-	int id;
+	pthread_t		*thread;
+	t_i				*info;
+	int				id;
+	long			last_reset;
 	pthread_mutex_t	l_frok;
 	pthread_mutex_t	*r_frok;
-
 }	t_phedo;
 
 #ifndef philosopher
@@ -46,8 +48,7 @@ typedef struct s_phedo
 # include <stdlib.h>
 # include <stdio.h>
 
-# define DEATH		1
-# define CHILLIN	0
+# define DEATH		-69
 
 //////////////////////////	NODE_UTILS	//////////////////////////
 

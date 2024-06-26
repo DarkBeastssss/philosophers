@@ -6,61 +6,57 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/26 14:32:55 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:59:06 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	inserting_args(char **av, int ac, t_i **info) // do late tghe thing tiwht double pointer
+void think(t_phedo *phedo)
 {
-	if (ac != 5 || ac != 6)
-		return (put_str("Provide :\n\
-	(1) number_of_philosophers\
-	(2) time_to_die\
-	(3) time_to_eat\
-	(4) time_to_sleep\
-	(optional) number_of_times_each_philosopher_must_eat\n"\
-	, 1));
-	if (!ft_atoi(av[1]) || !ft_atoi(av[5]))
-		return (put_str("Values cannot be zero"), 0);
-	info = ft_calloc(1, sizeof(t_i));
-	if (!info)
-		return (put_str("Malloc failed"), 0);
-	info->philos = ft_atoi(av[1]);
-	info->die2time = ft_atoi(av[2]);
-	info->hungyy = ft_atoi(av[3]);
-	info->zzzz = ft_atoi(av[4]);
-	if (ac == 6)
-		info->pasta_overload = ft_atoi(av[5]);
-	return (1);
+	usleep(phedo->info->hungyy);
+	display_action(phedo, "is thinking");
 }
 
-static int init_stuff(t_i *info)
+void eat(t_phedo *phedo)
 {
-	t_phedo	*phedo;
+	pthread_mutex_lock(&phedo->l_frok);
+	pthread_mutex_lock(phedo->r_frok);
+	display_action(phedo, "has taken a fork");
+	display_action(phedo, "has taken a fork");
+	phedo->last_reset = get_time();
+	pthread_mutex_unlock(&phedo->l_frok);
+	pthread_mutex_unlock(phedo->r_frok);
+}
 
-	int		i = 0;
 
-	phedo = ft_calloc (sizeof(t_phedo), info->philos);
-	if (pthread_mutex_init(info->lock_1, NULL) || !phedo)
-		return (0);
-	
+void	*routine(void *yey)
+{
+	t_phedo *phedo;
+	int i = 0;
+
+	phedo = yey;
+	phedo->last_reset = get_time();
+	if (phedo->id % 2 || phedo->id == 1)
+		think(phedo);
+	while (i != DEATH || i < phdeo->pasta_overload)
+	{
+		eat();
+		sleep();
+		display_action(phedo, "is sleeping");
+	}
+}
+
+int start(t_i *info)
+{
+	int i = 0;
+
 	while (i < info->philos)
 	{
-		if (i + 1 == info->philos)
-			info->phedo[i].r_frok = &info->phedo[0].l_frok;
-		else
-		{
-			pthread_mutex_init(&info->phedo[i].l_frok, NULL);
-			pthread_mutex_init(&info->phedo[i+1].l_frok, NULL);
-			info->phedo[i].r_frok = &info->phedo[i + 1].l_frok;
-		}
-		// other initinialisations
-		phedo->id = i + 1;
+		if(pthread_create(info->phedo[i].thread, NULL, &routine, &info->phedo[i]))
+			return (1); // destryoy all shits and free
 		i++;
 	}
-	return (1);
 }
 
 int	main(int ac, char **av)
@@ -72,5 +68,5 @@ int	main(int ac, char **av)
 		return (1);
 	if (!init_stuff(info))
 		return (1);
-	start();
+	start(info);
 }
