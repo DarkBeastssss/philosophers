@@ -6,7 +6,7 @@
 #    By: amecani <amecani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 16:02:48 by amecani           #+#    #+#              #
-#    Updated: 2024/06/17 15:06:06 by amecani          ###   ########.fr        #
+#    Updated: 2024/06/28 12:24:56 by amecani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,17 @@ NAME = philosopher
 LIBFT = includes/libft/libft.a
 CFLAGS = -Wall -Werror -Wextra -g3
 
-SOURCES =	main.c
+SOURCES =	main.c \
+			utilities.c \
+			libft_functions.c \
+			initinilasiation.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(NAME)
 
-$(LIBFT):
-	@make -C includes/libft
-
-$(NAME): $(OBJECTS) | $(LIBFT)
-	@$(CC) $(CFLAGS) $(LIBFT) $(OBJECTS) -o $(NAME)
+$(NAME): $(OBJECTS)
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
 
 %.o : %.c
 	@$(CC) $(CFLAGS) -c $< -o $@

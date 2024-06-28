@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initinilasiation.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
+/*   Updated: 2024/06/28 12:32:10 by amecani          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	inserting_args(char **av, int ac, t_i **info)
@@ -25,14 +37,14 @@ int	inserting_args(char **av, int ac, t_i **info)
 	return (1);
 }
 
-int init_stuff(t_i *info)
+int	init_stuff(t_i *info)
 {
 	t_phedo	*phedo;
 
 	int		i = 0;
 
 	phedo = ft_calloc (sizeof(t_phedo), info->philos);
-	if (pthread_mutex_init(info->lock_1, NULL) || !phedo)
+	if (pthread_mutex_init(info->lock_print, NULL) || !phedo)
 		return (0);
 	
 	while (i < info->philos)

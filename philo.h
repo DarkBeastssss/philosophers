@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/26 19:33:35 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/28 12:35:11 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct s_info
 {
-	pthread_mutex_t	*lock_1;
+	pthread_mutex_t	*lock_print;
 	pthread_mutex_t	*lock_2;
 	int		philos;
 	int		die2time;
@@ -38,6 +38,7 @@ typedef struct s_phedo
 	t_i				*info;
 	int				id;
 	long			last_reset;
+	long			birthday;
 	pthread_mutex_t	l_frok;
 	pthread_mutex_t	*r_frok;
 }	t_phedo;
@@ -50,13 +51,18 @@ typedef struct s_phedo
 
 # define DEATH		-69
 
-//////////////////////////	NODE_UTILS	//////////////////////////
+long long	ft_atoi(const char *bomba);
+int	inserting_args(char **av, int ac, t_i **info);
+int	init_stuff(t_i *info);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+void think(t_phedo *phedo);
+void eat(t_phedo *phedo);
+void sleepin(t_phedo *phedo);
+void	*routine(void *yey);
+int start(t_i *info);
+long	get_time(void);
+void display_action(t_phedo *phedo ,char *string);
 
-//////////////////////////	THREAD_UTILS	//////////////////////////
-
-//////////////////////////	PARSE	//////////////////////////
-
-		//. G E N IU S  T oo L S \\.
 
 #endif
-//

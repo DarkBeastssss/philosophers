@@ -10,5 +10,9 @@ long	get_time(void)
 
 void display_action(t_phedo *phedo ,char *string)
 {
+	if (phedo->info->state == DEATH)
+		return;
+	pthread_mutex_lock(phedo->info->lock_print);
 	ft_printf("%d %d %s", get_time(), phedo->id, string);
+	pthread_mutex_unlock(phedo->info->lock_print);
 }
