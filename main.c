@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/28 12:34:15 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:24:41 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ void eat(t_phedo *phedo)
 {
 	pthread_mutex_lock(&phedo->l_frok);
 	pthread_mutex_lock(phedo->r_frok);
+	usleep(phedo->info->hungyy);
+	if (phedo->info->state != DEATH \
+	&& get_time() - phedo->last_reset > phedo->info->die2time)
+	{
+		phedo->info->state = -69;
+		phedo->info->dead_person = phedo->id;
+		phedo->info->time_of_death = get_time() - phedo->born;
+	}
 	display_action(phedo, "has taken a fork");
 	display_action(phedo, "has taken a fork");
 	phedo->last_reset = get_time();
@@ -41,7 +49,7 @@ void	*routine(void *yey)
 	int i = 0;
 
 	phedo = yey;
-	phedo->birthday =  
+	phedo->born =  get_time();
 	phedo->last_reset = get_time();
 	if (phedo->id % 2 || phedo->id == 1)
 		think(phedo);
@@ -49,10 +57,10 @@ void	*routine(void *yey)
 	{
 		eat(phedo);
 		sleepin(phedo);
-		display_action(phedo, "is sleeping");
+		display_action(phedo, "is thinking");
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int start(t_i *info)
@@ -64,6 +72,21 @@ int start(t_i *info)
 		if(pthread_create(info->phedo[i].thread, NULL, &routine, &info->phedo[i]))
 			return (1); // destryoy all shits and free
 		i++;
+	}
+	i = 0;
+	while (i < info->philos)
+	{
+		if (pthread_join(info->phedo[i].thread, NULL))
+			put_str("Thread joibing fialed\n");// destroy everythin
+		i++;
+	}
+	if (info->state == DEATH)
+	{
+		put_str(ft_atoi(info->time_of_death));
+		put_c(' ');
+		put_str(ft_atoi(info->dead_person));
+		put_c(' ');
+		put_str(" died\n");
 	}
 }
 
@@ -77,4 +100,5 @@ int	main(int ac, char **av)
 	if (!init_stuff(info))
 		return (1);
 	start(info);
+	return (0);
 }
