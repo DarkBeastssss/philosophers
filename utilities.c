@@ -13,11 +13,11 @@ void display_action(t_phedo *phedo ,char *string)
 	if (phedo->info->state == DEATH)
 		return;
 	pthread_mutex_lock(phedo->info->lock_print);
-	put_str(ft_atoi(get_time()));
-	put(' ');
-	put_str(ft_atoi(phedo->id));
-	put(' ');
+	put_str(ft_itoa(get_time()));
+	put_c(' ');
+	put_str(ft_itoa(phedo->id));
+	put_c(' ');
 	put_str(string);
-	put('\n');
+	put_c('\n');
 	pthread_mutex_unlock(phedo->info->lock_print);
 }

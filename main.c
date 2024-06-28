@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/28 16:24:41 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/28 17:44:47 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void eat(t_phedo *phedo)
 
 void sleepin(t_phedo *phedo)
 {
-	display_action(phedo->id, "is sleeping");
+	display_action(phedo, "is sleeping");
 	usleep(phedo->info->zzzz);
 }
 
@@ -63,7 +63,7 @@ void	*routine(void *yey)
 	return (NULL);
 }
 
-int start(t_i *info)
+int start(t_info *info)
 {
 	int i = 0;
 
@@ -76,23 +76,24 @@ int start(t_i *info)
 	i = 0;
 	while (i < info->philos)
 	{
-		if (pthread_join(info->phedo[i].thread, NULL))
+		if (pthread_join(*info->phedo[i].thread, NULL))
 			put_str("Thread joibing fialed\n");// destroy everythin
 		i++;
 	}
 	if (info->state == DEATH)
 	{
-		put_str(ft_atoi(info->time_of_death));
+		put_str(ft_itoa(info->time_of_death));
 		put_c(' ');
-		put_str(ft_atoi(info->dead_person));
+		put_str(ft_itoa(info->dead_person));
 		put_c(' ');
 		put_str(" died\n");
 	}
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	t_i	*info;
+	t_info	*info;
 
 	info = NULL;
 	if (!inserting_args(av, ac, &info))
