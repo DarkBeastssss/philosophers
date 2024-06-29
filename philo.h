@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 07:21:51 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:19:17 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,30 @@ typedef struct s_info
 	pthread_mutex_t	*lock_print;
 	pthread_mutex_t	*lock_dead;
 	pthread_mutex_t	*lock_done;
+	int				no_crumbs_left;
 	int				philos; //number of philos
 	int				die2time; // death timer
 	int				hungyy; // time to eat
 	int				zzzz; // time to sleep
 	int				pasta_overload; // number of times to eat
 	int				state; // dead ? alive
-	// These two down are to capture the first one to die
-	long			time_of_death; // penis
-	int				dead_person; // blass
-	int				is_dead;
 	t_phedo			*phedo;
+	long long		start_t;
 }	t_info;
 
 struct s_phedo
 {
-	pthread_t		*thread;	//done
+	pthread_t		thread;	//done
 	t_info			*info;		//
 	int				id;			//
 	long			last_reset;	//
 	long			born;		//
-	pthread_mutex_t	l_frok;		//done
-	pthread_mutex_t	*r_frok;	//done
+	int				die_to_time;
+	int				numnum_count;
+	int				completion;
+	pthread_mutex_t	*l_frok;		//done
+	pthread_mutex_t	r_frok;	//done
+	pthread_mutex_t	lock_hungyy;
 };
 
 #ifndef philosopher
@@ -60,7 +62,7 @@ struct s_phedo
 
 long long	ft_atoi(const char *bomba);
 int			inserting_args(char **av, int ac, t_info *info);
-int			init_stuff(t_info info);
+int			init_phedos(t_phedo **phedos, t_info *info);
 void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 void		think(t_phedo *phedo);

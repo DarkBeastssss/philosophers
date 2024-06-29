@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 07:21:34 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:16:25 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	*routine(void *yey)
 	t_phedo *phedo;
 	int i = 0;
 
-	phedo = yey;
-	phedo->born =  get_time();
-	phedo->last_reset = get_time();
+	// phedo = yey;
+	// phedo->born =  get_time();
+	// phedo->last_reset = get_time();
 	if (phedo->id % 2 || phedo->id == 1)
 		think(phedo);
 	while (i < phedo->info->pasta_overload)
@@ -96,10 +96,14 @@ int	main(int ac, char **av)
 	t_info	info;
 	t_phedo *phedos;
 
-	if (!inserting_args(av, ac, &info))
+	if (!inserting_args(av, ac, &info)) //  all the info is initialized here
 		return (1);
-	if (!init_stuff(info))
+	if (!init_mutexes(&info))  // the mutexes are initialized
 		return (1);
-	start(info);
+	if (!init_phedos(&phedos, &info)); // phedos aint lifting froks properly
+		return (1);
+	if (!init_stuff(info, &phedos)); // phedos aint stiching yet
+		return (1);
+	// start(info);
 	return (0);
 }

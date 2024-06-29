@@ -6,11 +6,23 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 07:23:44 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:26:10 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	init_mutexes(t_info *info)
+{
+	if (pthread_mutex_init(&info->lock_done, NULL) != 0)
+		return (printf("lock_dead faillll!"), 0);
+	if (pthread_mutex_init(&info->lock_dead, NULL) != 0)
+		return (pthread_mutex_destroy(&info->lock_done), ("lock_done faillll!"), 0);
+	if (pthread_mutex_init(&info->lock_print, NULL) != 0)
+		return (pthread_mutex_destroy(&info->lock_dead), \
+		pthread_mutex_destroy(&info->lock_done), ("lock_printy faillll!"), 0);
+	return (1);
+}
 
 int	inserting_args(char **av, int ac, t_info *info)
 {
@@ -27,55 +39,57 @@ int	inserting_args(char **av, int ac, t_info *info)
 		return (put_str("Values cannot be zero"), 0);
 	if (ac == 6 && !ft_atoi(av[5]))
 		return (put_str("Values cannot be zero"), 0);
-	// (*info) = ft_calloc(1, sizeof(t_info));
-	// if (!info)
-		// return (put_str("Malloc failed"), 0);
-	(info)->pasta_overload = -1; // half half but fuck it
+	(info)->pasta_overload = -1;
 	(info)->philos = ft_atoi(av[1]);
 	(info)->die2time = ft_atoi(av[2]);
 	(info)->hungyy = ft_atoi(av[3]);
 	(info)->zzzz = ft_atoi(av[4]);
-	(info)->is_dead = 0;
+	(info)->state = 0;
 	if (ac == 6)
 		(info)->pasta_overload = ft_atoi(av[5]);
-	init_mutexes(info);
 	return (1);
 }
 
-// while (i < phedo->info->philos)
-// 	pthread_mutex_init(&phedo[i++].l_frok, NULL);
-// i = 1;
-// while (i < phedo->info->philos)
-// {
-// 	if (i + 1 == phedo->info->philos)
-// 		phedo[0].r_frok = &phedo[i].l_frok;
-// 	else
-// 		phedo[i - 1].r_frok = &phedo[i].l_frok;
-// }
-
-int	init_mutexes(t_info *info)
+int	phedo_init(t_phedo *phedo, int id, t_info *info)
 {
-	if (pthread_mutex_init(&info->lock_dead, NULL) != 0)
-		return (printf("destroy not done"), 0);
-	if (pthread_mutex_init(&info->lock_done, NULL) != 0)
-		return (printf("destroy not done"), 0);
-	if (pthread_mutex_init(&info->lock_print, NULL) != 0)
-		return (printf("destroy not done"), 0);
+	phedo->id = id +1;
+	phedo->die_to_time = info->die2time;
+	phedo->numnum_count = 0;
+	phedo->last_reset = 
+}
+
+int	init_phedos(t_phedo **phedos, t_info *info)
+{
+	int	id;
+
+	id = -1;
+	*phedos = malloc(sizeof(t_phedo) * info->philos);
+	if(!phedos)
+		return(printf("Malloc aint mallocing!"));
+	while (++id < info->philos)
+	{
+		phedo_init(&(*phedos)[id], id, info);
+		if (pthread_mutex_init(&(*phedos)[id].r_frok, NULL) != 0)
+			return (destroy_phedo(phedos, id),
+				printf("r_fork aint forkin\n"), 0);
+		if (pthread_mutex_init(&(*phedos)[id].lock_hungyy, NULL) != 0)
+			return (pthread_mutex_destroy(&(*phedos)[id].r_frok),
+				destroy_phedo(phedos, id),
+				printf("lock_eating doesnt want to lock\n"), 0);
+		if (id)
+			(*phedos)[id].l_frok = &(*phedos)[id - 1]. r_frok;
+	}
+	if (info->philos <= 1)
+		return (1);
+	(*phedos)[0].l_frok = &(*phedos)[info->philos - 1].r_frok;
 	return (1);
 }
 
-int	init_phedos(t_info *info)
+int	init_stuff(t_info *info, t_phedo **phedos)
 {
-}
-
-int	init_stuff(t_info info)
-{
-	pthread_t	dead;
-	pthread_t	full;
-	t_phedo		*phedo;
 	int			id;
 
-	init_phedos(info);
+
 	id = 0;
 	while (id < info->philos)
 	{
