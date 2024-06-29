@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 18:26:10 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 20:44:41 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	init_mutexes(t_info *info)
 	if (pthread_mutex_init(&info->lock_done, NULL) != 0)
 		return (printf("lock_dead faillll!"), 0);
 	if (pthread_mutex_init(&info->lock_dead, NULL) != 0)
-		return (pthread_mutex_destroy(&info->lock_done), ("lock_done faillll!"), 0);
+		return (pthread_mutex_destroy(&info->lock_done), ("lock_done faillll!\n"), 0);
 	if (pthread_mutex_init(&info->lock_print, NULL) != 0)
 		return (pthread_mutex_destroy(&info->lock_dead), \
-		pthread_mutex_destroy(&info->lock_done), ("lock_printy faillll!"), 0);
+		pthread_mutex_destroy(&info->lock_done), ("lock_printy faillll!\n"), 0);
 	return (1);
 }
 
@@ -36,9 +36,9 @@ int	inserting_args(char **av, int ac, t_info *info)
 	THE NUMBER WILL BE CUT OF FROM THE REST OF ARG IF NON-DIGIT PROVIDED (atoi)\n"),
 				0);
 	if (!ft_atoi(av[1]))
-		return (put_str("Values cannot be zero"), 0);
+		return (put_str("Values cannot be zero\n"), 0);
 	if (ac == 6 && !ft_atoi(av[5]))
-		return (put_str("Values cannot be zero"), 0);
+		return (put_str("Values cannot be zero\n"), 0);
 	(info)->pasta_overload = -1;
 	(info)->philos = ft_atoi(av[1]);
 	(info)->die2time = ft_atoi(av[2]);
@@ -65,7 +65,7 @@ int	init_phedos(t_phedo **phedos, t_info *info)
 	id = -1;
 	*phedos = malloc(sizeof(t_phedo) * info->philos);
 	if(!phedos)
-		return(printf("Malloc aint mallocing!"));
+		return(printf("Aint mallocin' cuh!\n"));
 	while (++id < info->philos)
 	{
 		phedo_init(&(*phedos)[id], id, info);
@@ -85,18 +85,20 @@ int	init_phedos(t_phedo **phedos, t_info *info)
 	return (1);
 }
 
-int	init_stuff(t_info *info, t_phedo **phedos)
+int	stitch_it_boyyy(t_info *info, t_phedo *phedos)
 {
 	int			id;
-
 
 	id = 0;
 	while (id < info->philos)
 	{
-		if (pthread_create(&phedo[id].thread, NULL, routine, &info->phedo[i]))
-			
+		if (pthread_create(&phedos[id].thread, NULL, routine, &phedos[id]))
+			return (put_str("Thread Creation Fault\n"), 0);
+		id++;
 	}
-	
+	id = -1;
+	while (++id < info->philos, NULL)
+		pthread_join(phedos[id].thread, NULL);
 	return (1);
 }
 

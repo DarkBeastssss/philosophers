@@ -6,7 +6,7 @@
 #    By: amecani <amecani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 16:02:48 by amecani           #+#    #+#              #
-#    Updated: 2024/06/28 12:24:56 by amecani          ###   ########.fr        #
+#    Updated: 2024/06/29 20:38:59 by amecani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,9 @@ $(NAME): $(OBJECTS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-	@make -C includes/libft clean
 	@rm -f $(OBJECTS)
 
 fclean: clean
-	@make -C includes/libft fclean
 	@rm -rf $(OBJECTS)
 	@rm -rf $(NAME)
 
