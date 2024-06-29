@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/28 17:44:47 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 07:21:34 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ int start(t_info *info)
 
 int	main(int ac, char **av)
 {
-	t_info	*info;
+	t_info	info;
+	t_phedo *phedos;
 
-	info = NULL;
 	if (!inserting_args(av, ac, &info))
 		return (1);
 	if (!init_stuff(info))

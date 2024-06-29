@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/28 17:52:13 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/29 07:21:51 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <sys/time.h>
+#include <limits.h>
 
 // assuming everything would be fine I need to do the free/destryo
 typedef struct s_phedo t_phedo;
@@ -24,26 +25,29 @@ typedef struct s_info
 {
 	pthread_mutex_t	*lock_print;
 	pthread_mutex_t	*lock_dead;
-	int				philos;
-	int				die2time;
-	int				hungyy;
-	int				zzzz;
-	int				pasta_overload;
-	int				state;
-	long			time_of_death;
-	int				dead_person;
+	pthread_mutex_t	*lock_done;
+	int				philos; //number of philos
+	int				die2time; // death timer
+	int				hungyy; // time to eat
+	int				zzzz; // time to sleep
+	int				pasta_overload; // number of times to eat
+	int				state; // dead ? alive
+	// These two down are to capture the first one to die
+	long			time_of_death; // penis
+	int				dead_person; // blass
+	int				is_dead;
 	t_phedo			*phedo;
 }	t_info;
 
 struct s_phedo
 {
-	pthread_t		*thread;
-	t_info			*info;
-	int				id;
-	long			last_reset;
-	long			born;
-	pthread_mutex_t	l_frok;
-	pthread_mutex_t	*r_frok;
+	pthread_t		*thread;	//done
+	t_info			*info;		//
+	int				id;			//
+	long			last_reset;	//
+	long			born;		//
+	pthread_mutex_t	l_frok;		//done
+	pthread_mutex_t	*r_frok;	//done
 };
 
 #ifndef philosopher
@@ -55,8 +59,8 @@ struct s_phedo
 # define DEATH		-69
 
 long long	ft_atoi(const char *bomba);
-int			inserting_args(char **av, int ac, t_info **info);
-int			init_stuff(t_info *info);
+int			inserting_args(char **av, int ac, t_info *info);
+int			init_stuff(t_info info);
 void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 void		think(t_phedo *phedo);
