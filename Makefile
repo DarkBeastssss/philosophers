@@ -6,7 +6,7 @@
 #    By: amecani <amecani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 16:02:48 by amecani           #+#    #+#              #
-#    Updated: 2024/06/29 20:38:59 by amecani          ###   ########.fr        #
+#    Updated: 2024/06/30 21:11:15 by amecani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ CFLAGS = -Wall -Werror -Wextra -g3
 SOURCES =	main.c \
 			utilities.c \
 			libft_functions.c \
-			initinilasiation.c
+			libft_functions_2.c \
+			initinilasiation.c \
+			initinilasiation_2.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
