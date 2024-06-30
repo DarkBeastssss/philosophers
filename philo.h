@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 17:11:52 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 19:32:14 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ struct					s_phedo
 # include <stdio.h>
 # include <stdlib.h>
 
-# define DEATH -69
+# define DEATH 0
 
 long long				ft_atoi(const char *bomba);
 int						inserting_args(char **av, int ac, t_info *info);

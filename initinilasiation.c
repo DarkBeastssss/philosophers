@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 17:18:52 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 20:27:26 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	inserting_args(char **av, int ac, t_info *info)
 	(info)->die2time = ft_atoi(av[2]);
 	(info)->hungyy = ft_atoi(av[3]);
 	(info)->zzzz = ft_atoi(av[4]);
-	(info)->state = 0;
+	(info)->state = 1;
+	(info)->start_t = get_time();
 	if (ac == 6)
 		(info)->pasta_overload = ft_atoi(av[5]);
 	return (1);
@@ -118,7 +119,7 @@ void	*tummy_check(void *phedos)
 		}
 		if (full == phedo->info->philos)
 			return (phedo->info->no_crumbs_left = 1, NULL);
-		if (phedo->info->state)
+		if (!phedo->info->state)
 			return (NULL);
 		// usleep(5);
 		usleep(10);
@@ -168,7 +169,7 @@ int	stitch_it_boyyy(t_info *info, t_phedo *phedos)
 	pthread_t	tummy_burst;
 
 	phedos->info->no_crumbs_left = 0;
-	phedos->info->state = 0;
+	phedos->info->state = 1;
 	pthread_create(&dead, NULL, death_check, phedos);
 	pthread_create(&tummy_burst, NULL, tummy_check, phedos);
 	id = 0;

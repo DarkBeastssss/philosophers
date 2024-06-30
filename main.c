@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 16:47:56 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 20:44:45 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,87 +45,104 @@
 
 void	ft_usleep(int time)
 {
-	size_t	start;
-	size_t	now;
-	size_t	end;
+	long long	start;
+	// long long	end;
+	// long long	now;
 
+	// start = get_time();
+	// end = start + time;
+	// while (1)
+	// {
+	// 	now = get_time();
+	// 	if (now >= end)
+	// 		break ;
+	// 	usleep(100);
+	// }
+	/////////////////////
+	// Same shit but looks simplerr
 	start = get_time();
-	end = start + time;
-	while (1)
-	{
-		now = get_time();
-		if (now >= end)
-			break ;
+	while (get_time() < start + time)
 		usleep(100);
+}
+
+void	phedo_eating(t_phedo *phedo)
+{
+	// printf("EATINH");
+	pthread_mutex_lock(&phedo->r_frok);
+	display_action(phedo, "has taken a fork");
+	if (phedo->info->philos > 1)
+	{
+		pthread_mutex_lock(phedo->l_frok);
+		display_action(phedo, "has taken a fork");
+		pthread_mutex_lock(&phedo->lock_hungyy);
+		display_action(phedo, "is eating");
+		phedo->last_reset = get_time();
+		phedo->numnum_count++;
+		if (phedo->numnum_count == (int)phedo->info->pasta_overload)
+			phedo->completion = 1;
+		ft_usleep(phedo->info->hungyy);
+		pthread_mutex_unlock(&phedo->lock_hungyy);
+		pthread_mutex_unlock(&phedo->r_frok);
+		pthread_mutex_unlock(phedo->l_frok);
 	}
+	else
+		pthread_mutex_unlock(&phedo->r_frok);
+}
+
+void	phedo_being_stubid(t_phedo	*phedo)
+{
+	display_action(phedo, "is sleeping");
+	ft_usleep(phedo->info->zzzz);
+	if (!phedo->info->state || phedo->info->no_crumbs_left)
+		return ;
+	display_action(phedo, "is thinking");
+	return ;
 }
 
 void	*routine(void *yey)
 {
-	t_phedo *phedo;
-	// int i = 0;
+	t_phedo	*phedo;
 
+	// int i = 0;
 	phedo = (t_phedo *)yey;
 	if (phedo->id % 2 == 0 || phedo->info->philos == phedo->id)
 	{
 		display_action(phedo, "is thinking");
 		ft_usleep(phedo->info->hungyy);
 	}
-	// phedo->born =  get_time();
-	// phedo->last_reset = get_time();
-	// if (phedo->id % 2 || phedo->id == 1)
-	// 	think(phedo);
-	// while (i < phedo->info->pasta_overload)
-	// {
-	// 	eat(phedo);
-	// 	sleepin(phedo);
-	// 	display_action(phedo, "is thinking");
-	// 	i++;
-	// }
+	// printf("\nDEBUG\n\n");
+	// while (phedo->info->state)
+	while ("my laywer advised me not to proceed with the joke")
+	{
+		if (!phedo->info->state || phedo->info->no_crumbs_left)
+			return (NULL);
+		phedo_eating(phedo);
+		if (!phedo->info->state || phedo->info->no_crumbs_left)
+			return (NULL);
+		phedo_being_stubid(phedo);
+		if (!phedo->info->state || phedo->info->no_crumbs_left)
+			return (NULL);
+	}
 	return (NULL);
 }
-
-// int start(t_info *info)
-// {
-// 	int i = 0;
-
-// 	while (i < info->philos)
-// 	{
-// 		if(pthread_create(info->phedo[i].thread, NULL, &routine, &info->phedo[i]))
-// 			return (1); // destryoy all shits and free
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < info->philos)
-// 	{
-// 		if (pthread_join(*info->phedo[i].thread, NULL))
-// 			put_str("Thread joibing fialed\n");// destroy everythin
-// 		i++;
-// 	}
-// 	if (info->state == DEATH)
-// 	{
-// 		put_str(ft_itoa(info->die2time));
-// 		put_c(' ');
-// 		put_str(ft_itoa(info->dead_person));
-// 		put_c(' ');
-// 		put_str(" died\n");
-// 	}
-// 	return (0);
-// }
 
 int	main(int ac, char **av)
 {
 	t_info	info;
-	t_phedo *phedos;
+	t_phedo	*phedos;
 
 	if (!inserting_args(av, ac, &info)) //  all the info is initialized here
 		return (1);
-	if (!init_mutexes(&info))  // the mutexes are initialized
+	// printf("1 \n");
+	if (!init_mutexes(&info)) // the mutexes are initialized
 		return (1);
+	// printf("2 \n");
 	if (!init_phedos(&phedos, &info)) // phedos aint lifting froks properly
 		return (1);
+	// printf("3 \n");
 	if (!stitch_it_boyyy(&info, phedos)) // phedos aint stiching yet
 		return (1);
+	// printf("4 adssd \n");
 	// start(info);
 	return (0);
 }
