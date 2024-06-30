@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 20:44:51 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 16:47:56 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,34 @@
 // 	usleep(phedo->info->zzzz);
 // }
 
+void	ft_usleep(int time)
+{
+	size_t	start;
+	size_t	now;
+	size_t	end;
+
+	start = get_time();
+	end = start + time;
+	while (1)
+	{
+		now = get_time();
+		if (now >= end)
+			break ;
+		usleep(100);
+	}
+}
+
 void	*routine(void *yey)
 {
 	t_phedo *phedo;
 	// int i = 0;
 
-	phedo = yey;
+	phedo = (t_phedo *)yey;
+	if (phedo->id % 2 == 0 || phedo->info->philos == phedo->id)
+	{
+		display_action(phedo, "is thinking");
+		ft_usleep(phedo->info->hungyy);
+	}
 	// phedo->born =  get_time();
 	// phedo->last_reset = get_time();
 	// if (phedo->id % 2 || phedo->id == 1)

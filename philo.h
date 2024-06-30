@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 20:40:05 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:11:52 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ typedef struct s_phedo	t_phedo;
 
 typedef struct s_info
 {
-	pthread_mutex_t		*lock_print;
-	pthread_mutex_t		*lock_dead;
-	pthread_mutex_t		*lock_done;
+	pthread_mutex_t		lock_print;
+	pthread_mutex_t		lock_dead;
+	pthread_mutex_t		lock_done;
 	int					no_crumbs_left;
 	int philos;         // number of philos
 	int die2time;       // death timer
@@ -72,7 +72,7 @@ int						stitch_it_boyyy(t_info *info, t_phedo *phedos);
 int						init_mutexes(t_info *info);
 void					*routine(void *yey);
 int						start(t_info *info);
-long					get_time(void);
+long long				get_time(void);
 void					display_action(t_phedo *phedo, char *string);
 void					put_c(char c);
 int						put_str(char *s);

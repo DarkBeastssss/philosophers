@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/29 20:44:41 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:18:52 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ int	init_mutexes(t_info *info)
 	if (pthread_mutex_init(&info->lock_done, NULL) != 0)
 		return (printf("lock_dead faillll!"), 0);
 	if (pthread_mutex_init(&info->lock_dead, NULL) != 0)
-		return (pthread_mutex_destroy(&info->lock_done), ("lock_done faillll!\n"), 0);
+		return (pthread_mutex_destroy(&info->lock_done),
+			printf("lock_done faillll!\n"), 0);
 	if (pthread_mutex_init(&info->lock_print, NULL) != 0)
 		return (pthread_mutex_destroy(&info->lock_dead), \
-		pthread_mutex_destroy(&info->lock_done), ("lock_printy faillll!\n"), 0);
+		pthread_mutex_destroy(&info->lock_done), printf("lock_printy faillll!\n"), 0);
 	return (1);
 }
 
@@ -55,7 +56,21 @@ int	phedo_init(t_phedo *phedo, int id, t_info *info)
 	phedo->id = id +1;
 	phedo->die_to_time = info->die2time;
 	phedo->numnum_count = 0;
-	phedo->last_reset = 
+	phedo->last_reset = info->start_t;
+	phedo->completion = 0;
+	phedo->info = info;
+	return (1);
+}
+
+void	destroy_phedo(t_phedo **philos, int id)
+{
+	while (id > 0)
+	{
+		id--;
+		pthread_mutex_destroy(&(*philos)[id].r_frok);
+		pthread_mutex_destroy(&(*philos)[id].lock_hungyy);
+	}
+	free(*philos);
 }
 
 int	init_phedos(t_phedo **phedos, t_info *info)
@@ -85,10 +100,77 @@ int	init_phedos(t_phedo **phedos, t_info *info)
 	return (1);
 }
 
+void	*tummy_check(void *phedos)
+{
+	t_phedo	*phedo;
+	int		full;
+	int		i;
+
+	phedo = phedos;
+	while (1)
+	{
+		i = -1;
+		full = 0;
+		while (++i < phedo->info->philos)
+		{
+			if (phedo[i].completion == 1)
+				full++;
+		}
+		if (full == phedo->info->philos)
+			return (phedo->info->no_crumbs_left = 1, NULL);
+		if (phedo->info->state)
+			return (NULL);
+		// usleep(5);
+		usleep(10);
+	}
+	return (NULL);
+}
+
+void	phedo_in_hell(t_phedo *phedo, long long time)
+{
+	pthread_mutex_lock(&phedo->info->lock_print);
+	phedo->info->state = 0;
+	printf("%lld %d died\n", time - phedo->info->start_t, phedo->id);
+	usleep(100);
+	pthread_mutex_unlock(&phedo->info->lock_print);
+	pthread_mutex_unlock(&phedo->info->lock_dead);
+}
+
+void	*death_check(void *phedos)
+{
+	t_phedo		*phedo;
+	long long	time;
+	int			id;
+
+	phedo = phedos;
+	id	= -1;
+	while (++id < phedo->info->philos)
+	{
+		pthread_mutex_lock(&phedo[id].info->lock_dead);
+		time = get_time();
+		if (phedo[id].die_to_time <= time - phedo[id].last_reset)
+		{
+			return (phedo_in_hell(&phedo[id], time), NULL);
+		}
+		pthread_mutex_unlock(&phedo[id].info->lock_dead);
+		if(phedo->info->no_crumbs_left == 1)
+			return (NULL);
+		if (id == phedo->info->philos - 1)
+			id = -1;
+	}
+	return (NULL);
+}
+
 int	stitch_it_boyyy(t_info *info, t_phedo *phedos)
 {
 	int			id;
+	pthread_t	dead;
+	pthread_t	tummy_burst;
 
+	phedos->info->no_crumbs_left = 0;
+	phedos->info->state = 0;
+	pthread_create(&dead, NULL, death_check, phedos);
+	pthread_create(&tummy_burst, NULL, tummy_check, phedos);
 	id = 0;
 	while (id < info->philos)
 	{
@@ -97,7 +179,7 @@ int	stitch_it_boyyy(t_info *info, t_phedo *phedos)
 		id++;
 	}
 	id = -1;
-	while (++id < info->philos, NULL)
+	while (++id < info->philos)
 		pthread_join(phedos[id].thread, NULL);
 	return (1);
 }
