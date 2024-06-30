@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:12:58 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 21:32:23 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,7 @@ int	init_mutexes(t_info *info)
 int	inserting_args(char **av, int ac, t_info *info)
 {
 	if (ac != 5 && ac != 6)
-		return (put_str("Provide :\n\
-			(1) number_of_philosophers\n\
-			(2) time_to_die\n\
-			(3) time_to_eat\n\
-			(4) time_to_sleep\n\
-			(5) (optional) number_of_times_each_philosopher_must_eat\n\
-			THE NUMBER WILL BE CUT OF FROM THE REST OF ARG IF NON-DIGIT\
-			PROVIDED (atoi)\n"), 0);
+		return (put_str(ERROR_MSG), 0);
 	if (!ft_atoi(av[1]))
 		return (put_str("Values cannot be zero\n"), 0);
 	if (ac == 6 && !ft_atoi(av[5]))
@@ -50,6 +43,9 @@ int	inserting_args(char **av, int ac, t_info *info)
 	(info)->start_t = get_time();
 	if (ac == 6)
 		(info)->pasta_overload = ft_atoi(av[5]);
+	if (info->philos < 0 | info->die2time < 0 | info->hungyy < 0
+		| info->zzzz < 0 | info->pasta_overload < 0)
+		return (put_str(ERROR_MSG), 0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:18:00 by amecani          ###   ########.fr       */
+/*   Updated: 2024/06/30 21:29:34 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ struct					s_phedo
 };
 
 # define DEATH 0
+# define ERROR_MSG "Provide :\n(1) number_of_philosophers\n(2) time_to_die\n\
+(3) time_to_eat\n\
+(4) time_to_sleep\n\
+(5) (optional) number_of_times_each_philosopher_must_eat\n\
+THE NUMBER WILL BE CUT OF FROM THE REST OF ARG IF NON-DIGIT\
+PROVIDED (atoi)\n"
 
 long long				ft_atoi(const char *bomba);
 int						inserting_args(char **av, int ac, t_info *info);
