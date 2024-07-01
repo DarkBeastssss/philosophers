@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/07/01 23:45:01 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 00:12:28 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct					s_phedo
 };
 
 # define DEATH 0
-# define YEAH_LOCK_HUNGY_TOO 55	
+# define YEAH_r_frok_TOO 55
 # define ERROR_MSG "Provide :\n(1) number_of_philosophers\n(2) time_to_die\n\
 (3) time_to_eat\n\
 (4) time_to_sleep\n\

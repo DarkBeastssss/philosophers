@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/07/01 23:50:21 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 01:32:05 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,15 @@ int	phedo_init(t_phedo *phedo, int id, t_info *info)
 
 void	destroy_phedo(t_phedo **philos, int id, int flag)
 {
-	while (id >= 0) // changed from > to >=
+	if (flag == YEAH_r_frok_TOO)
+		pthread_mutex_destroy(&(*philos)[id].r_frok);
+	while (id > 0)
 	{
 		id--;
 		pthread_mutex_destroy(&(*philos)[id].r_frok);
-		if (flag == YEAH_LOCK_HUNGY_TOO)
-			pthread_mutex_destroy(&(*philos)[id].lock_hungyy);
-		free(&(*philos)[id]); // added extra
-		flag = YEAH_LOCK_HUNGY_TOO;
+		pthread_mutex_destroy(&(*philos)[id].lock_hungyy);
+		// printf("id: %d\n", id);
+		// free(&(*philos)[id]); // added extra
 	}
 	free(*philos);
 }
