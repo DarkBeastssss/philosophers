@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:39 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:34:18 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/01 23:56:25 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ int	main(int ac, char **av)
 	if (!init_phedos(&phedos, &info))
 		return (1);
 	if (!stitch_it_boyyy(&info, phedos))
-		return (1);
+		return (destroy_phedo(&phedos, info.philos, 55), 1);
 	return (0);
 }

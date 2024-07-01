@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:02:44 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:29:34 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/01 23:45:01 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct					s_phedo
 };
 
 # define DEATH 0
+# define YEAH_LOCK_HUNGY_TOO 55	
 # define ERROR_MSG "Provide :\n(1) number_of_philosophers\n(2) time_to_die\n\
 (3) time_to_eat\n\
 (4) time_to_sleep\n\
@@ -75,8 +76,8 @@ long long				get_time(void);
 void					display_action(t_phedo *phedo, char *string);
 void					put_c(char c);
 int						put_str(char *s);
-char					*ft_itoa(int n);
 char					*ft_strdup(const char *s1);
 int						ft_strlen(char *s);
+void					destroy_phedo(t_phedo **philos, int id, int flag);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:48:40 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/01 23:50:21 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 int	init_mutexes(t_info *info)
 {
-	if (pthread_mutex_init(&info->lock_done, NULL) != 0)
-		return (printf("lock_dead faillll!"), 0);
 	if (pthread_mutex_init(&info->lock_dead, NULL) != 0)
-		return (pthread_mutex_destroy(&info->lock_done),
-			printf("lock_done faillll!\n"), 0);
+		return (printf("lock_dead faillll!\n"), 0);
 	if (pthread_mutex_init(&info->lock_print, NULL) != 0)
 		return (pthread_mutex_destroy(&info->lock_dead),
-			pthread_mutex_destroy(&info->lock_done),
 			printf("lock_printy faillll!\n"), 0);
 	return (1);
 }
@@ -63,13 +59,16 @@ int	phedo_init(t_phedo *phedo, int id, t_info *info)
 	return (1);
 }
 
-void	destroy_phedo(t_phedo **philos, int id)
+void	destroy_phedo(t_phedo **philos, int id, int flag)
 {
-	while (id > 0)
+	while (id >= 0) // changed from > to >=
 	{
 		id--;
 		pthread_mutex_destroy(&(*philos)[id].r_frok);
-		pthread_mutex_destroy(&(*philos)[id].lock_hungyy);
+		if (flag == YEAH_LOCK_HUNGY_TOO)
+			pthread_mutex_destroy(&(*philos)[id].lock_hungyy);
+		free(&(*philos)[id]); // added extra
+		flag = YEAH_LOCK_HUNGY_TOO;
 	}
 	free(*philos);
 }
@@ -86,11 +85,10 @@ int	init_phedos(t_phedo **phedos, t_info *info)
 	{
 		phedo_init(&(*phedos)[id], id, info);
 		if (pthread_mutex_init(&(*phedos)[id].r_frok, NULL) != 0)
-			return (destroy_phedo(phedos, id), printf("r_fork aint forkin\n"),
+			return (destroy_phedo(phedos, id, 0), printf("r_fork aint forkin\n"),
 				0);
 		if (pthread_mutex_init(&(*phedos)[id].lock_hungyy, NULL) != 0)
-			return (pthread_mutex_destroy(&(*phedos)[id].r_frok),
-				destroy_phedo(phedos, id),
+			return (destroy_phedo(phedos, id, 55),
 				printf("lock_eating doesnt want to lock\n"), 0);
 		if (id)
 			(*phedos)[id].l_frok = &(*phedos)[id - 1].r_frok;

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 21:07:10 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:15:06 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:55:02 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,8 @@ void	display_action(t_phedo *phedo, char *string)
 		pthread_mutex_unlock(&phedo->info->lock_print);
 		return ;
 	}
-	put_str(ft_itoa(get_time() - phedo->info->start_t));
-	put_c(' ');
-	put_str(ft_itoa(phedo->id));
-	put_c(' ');
-	put_str(string);
-	put_c('\n');
+	printf("%lld %d %s\n", \
+	get_time() - phedo->info->start_t, phedo->id, string);
 	timestamp = get_time() - phedo->info->start_t;
 	pthread_mutex_unlock(&phedo->info->lock_print);
 }
-
-	// printf("%lld %d %s\n", timestamp, phedo->id, string);
