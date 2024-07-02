@@ -6,7 +6,7 @@
 #    By: amecani <amecani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 16:02:48 by amecani           #+#    #+#              #
-#    Updated: 2024/06/30 21:11:15 by amecani          ###   ########.fr        #
+#    Updated: 2024/07/02 01:52:21 by amecani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJECTS = $(SOURCES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -lpthread
 
 %.o : %.c
 	@$(CC) $(CFLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 21:07:10 by amecani           #+#    #+#             */
-/*   Updated: 2024/07/01 20:55:02 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 01:48:50 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long long	get_time(void)
 
 void	display_action(t_phedo *phedo, char *string)
 {
-	long long	timestamp;
+	//long long	timestamp;
 
 	pthread_mutex_lock(&phedo->info->lock_print);
 	if (!phedo->info->state)
@@ -32,6 +32,6 @@ void	display_action(t_phedo *phedo, char *string)
 	}
 	printf("%lld %d %s\n", \
 	get_time() - phedo->info->start_t, phedo->id, string);
-	timestamp = get_time() - phedo->info->start_t;
+	//timestamp = get_time() - phedo->info->start_t;
 	pthread_mutex_unlock(&phedo->info->lock_print);
 }

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:18 by amecani           #+#    #+#             */
-/*   Updated: 2024/06/30 21:13:30 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 01:58:47 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
+// void	*ft_calloc(size_t count, size_t size)
+// {
+// 	void	*ptr;
 
-	ptr = (void *)malloc(count * size);
-	if (!(ptr))
-		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
-}
+// 	ptr = (void *)malloc(count * size);
+// 	if (!(ptr))
+// 		return (NULL);
+// 	ft_bzero(ptr, count * size);
+// 	return (ptr);
+// }
 
 void	put_c(char c)
 {

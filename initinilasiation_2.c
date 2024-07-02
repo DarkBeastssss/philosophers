@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 21:05:30 by amecani           #+#    #+#             */
-/*   Updated: 2024/07/02 00:15:16 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 02:06:58 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,7 @@ int	stitch_it_boyyy(t_info *info, t_phedo *phedos)
 	id = -1;
 	while (++id < info->philos)
 		pthread_join(phedos[id].thread, NULL);
+	pthread_join(dead, NULL);
+	pthread_join(tummy_burst, NULL);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: amecani <amecani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:22:23 by amecani           #+#    #+#             */
-/*   Updated: 2024/07/02 01:32:05 by amecani          ###   ########.fr       */
+/*   Updated: 2024/07/02 01:58:00 by amecani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	inserting_args(char **av, int ac, t_info *info)
 	(info)->start_t = get_time();
 	if (ac == 6)
 		(info)->pasta_overload = ft_atoi(av[5]);
-	if (info->philos < 0 | info->die2time < 0 | info->hungyy < 0
-		| info->zzzz < 0 | \
+	if (info->philos < 0 || info->die2time < 0 || info->hungyy < 0
+		|| info->zzzz < 0 || \
 		(info->pasta_overload < 0 && info->pasta_overload != -1))
 		return (put_str(ERROR_MSG), 0);
 	return (1);
